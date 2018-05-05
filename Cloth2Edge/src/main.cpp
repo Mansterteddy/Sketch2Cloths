@@ -9,6 +9,8 @@ using namespace cv::ximgproc;
 
 int main()
 {
+    cout<<"Hello, Sketch2Cloths!"<<endl;
+
     string cur_path = "/Users/manster/Desktop/Sketch2Cloths/Cloth2Edge/";
 
     string model_path = cur_path + "resources/model.yml.gz";
@@ -16,7 +18,7 @@ int main()
     string res_path = cur_path + "res/";
 
     Ptr<StructuredEdgeDetection> pDollar = createStructuredEdgeDetection(model_path);
-
+    
     namespace fs = boost::filesystem;
     fs::path directory(image_path);
 
