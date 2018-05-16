@@ -17,11 +17,11 @@ from LIP_model import *
 
 N_CLASSES = 20
 INPUT_SIZE = (384, 384)
-DATA_DIRECTORY = 'D:/SourceTree/sketch2cloths/HumanParsing/datasets/examples'
-DATA_LIST_PATH = 'D:/SourceTree/sketch2cloths/HumanParsing/datasets/examples/list/val.txt'
+DATA_DIRECTORY = '/Users/manster/Documents/SourceTree/Sketch2Cloths/HumanParsing/datasets/examples'
+DATA_LIST_PATH = '/Users/manster/Documents/SourceTree/Sketch2Cloths/HumanParsing/datasets/examples/list/val.txt'
 NUM_STEPS = 6 # Number of images in the validation set.
-RESTORE_FROM = 'D:/datasets/cloth-parsing/JPPNet-s2'
-OUTPUT_DIR = 'D:/SourceTree/sketch2cloths/HumanParsing/output/'
+RESTORE_FROM = '/Users/manster/Documents/Dataset/JPPNet-s2'
+OUTPUT_DIR = '/Users/manster/Documents/SourceTree/Sketch2Cloths/HumanParsing/output/'
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
