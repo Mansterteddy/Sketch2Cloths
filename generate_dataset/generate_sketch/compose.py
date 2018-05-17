@@ -3,14 +3,19 @@ import numpy as np
 import scipy.io
 import os
 
-clothEdge_image_path = "./segClothEdge/"
-skin_path = "./skin/"
-compose_path = "./compose/"
+dataset_dir = "/Users/manster/Documents/Dataset/"
+clothEdge_image_path = dataset_dir + "sketch2img/segClothSketch/"
+skin_path = dataset_dir + "sketch2img/skin/"
+compose_path = dataset_dir + "sketch2img/compose/"
 
 cur_dirs = os.listdir(clothEdge_image_path)
 
+res_dirs = os.listdir(compose_path)
+
 for file in cur_dirs:
     if file == ".DS_Store": continue
+
+    if file in res_dirs: continue
 
     file = file[:-4]
 

@@ -4,36 +4,41 @@ import random
 import scipy.io
 import os
 
-orginal_image_path = './groundTruth/'
-compose_image_path = './compose_version2/'
-label_annotations_path = './annotations/pixel-level/'
-mix_image_path = './mix_image_version2/'
+dataset_dir = "/Users/manster/Documents/Dataset/"
+orginal_image_path = dataset_dir + "sketch2img/groundTruth/"
+compose_image_path = dataset_dir + "sketch2img/compose/"
+label_annotations_path = dataset_dir + "co-parsing-raw/annotations/pixel-level/"
+mix_image_path = dataset_dir + 'sketch2img/compose_color/'
 
 
 label_dirs = os.listdir(label_annotations_path) # 读取mat的路径
 
 """label_class = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27,
                   28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52,
-                  53, 54, 55, 56, 57, 58]"""
-#label_class = [2, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 16, 18, 20, 21, 22, 23, 24, 25, 26, 27,
-#                  28, 30, 31, 33, 35, 36, 37, 38, 39, 40, 42, 43, 45, 46, 48, 49, 50, 51,
-#                  53, 54, 55, 58]
-label_class = [4, 5, 6,  10, 11,  13, 14, 22,24,25, 26,27,30,31, 35,  38, 40,
-                    42, 46, 48, 49, 50, 51,53, 54, 55]   #包含衣服，裤子的类别
+                  53, 54, 55, 56, 57, 58]
+    label_class = [2, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 16, 18, 20, 21, 22, 23, 24, 25, 26, 27,
+                 28, 30, 31, 33, 35, 36, 37, 38, 39, 40, 42, 43, 45, 46, 48, 49, 50, 51,
+                 53, 54, 55, 58]"""
+label_class = [4, 5, 6, 10, 11, 13, 14, 22, 24, 25, 26, 27, 30, 31, 35, 38, 40,
+                    42, 46, 48, 49, 50, 51, 53, 54, 55]  
 
 for file in label_dirs:
-    file = file[:-4]                            #  拿到文件名
+
+    file = file[:-4]                            
+    
     compose_image_filename = compose_image_path + file + '.jpg'
     image_filename = orginal_image_path + file +'.jpg'
     label_filename = label_annotations_path + file + '.mat'
 
     label_data = scipy.io.loadmat(label_filename)
-    label_data = label_data['groundtruth']    # 读取mat文件,将其中的groundtruth 读到label_data中，label_data： np.array
+    label_data = label_data['groundtruth']    
 
     x_list = np.array([])
     y_list = np.array([])
+    
     item_dict = dict()                         # 存储类别和下标的关系
     sample_dict = dict()                       # 存储所有取样的图片和下标，key = 下标
+
     kernel_size = 5                            # 采样块大小
     valid_flag = 1                             # 是否采样成功
     for i_item in label_class:
@@ -42,8 +47,9 @@ for file in label_dirs:
             continue
         else:
             item_dict[i_item] = np.array([x,y])
+
     compose_image_data = cv2.imread(compose_image_filename)    # 读取compose图片
-    image_data = cv2.imread(image_filename)                # 读取orginal图片
+    image_data = cv2.imread(image_filename)                    # 读取orginal图片
     if len(item_dict) == 0:                                    # 图中一个类别都没有
         continue
     else:
@@ -71,9 +77,4 @@ for file in label_dirs:
         compose_image_data[box[0]:box[0]+kernel_size,box[1]:box[1]+kernel_size] = region
     cv2.imwrite(mix_image_path + file + ".jpg", compose_image_data)
     print(file)
-    #cv2.imshow('result',compose_image_data)
-
-    #print('get it !')
-    #cv2.waitKey(0)
-    #break
 
